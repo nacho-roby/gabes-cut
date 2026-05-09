@@ -44,9 +44,9 @@
       <div class="bx-section">
         <div class="bx-section-title">Estimated sales (copies) <span class="bx-hint">click to select</span></div>
         <table class="bx-table bx-sales-table">
-          <tr class="bx-tier" data-tier="low"><td>Low <span class="bx-mult">30x</span></td><td class="bx-num">${fmtNum(sales.low)}</td></tr>
-          <tr class="bx-tier bx-selected" data-tier="mid"><td>Mid <span class="bx-mult">50x</span></td><td class="bx-num">${fmtNum(sales.mid)}</td></tr>
-          <tr class="bx-tier" data-tier="high"><td>High <span class="bx-mult">70x</span></td><td class="bx-num">${fmtNum(sales.high)}</td></tr>
+          <tr class="bx-tier" data-tier="low"><td>Low <span class="bx-mult">20x</span></td><td class="bx-num">${fmtNum(sales.low)}</td></tr>
+          <tr class="bx-tier bx-selected" data-tier="mid"><td>Mid <span class="bx-mult">31x</span></td><td class="bx-num">${fmtNum(sales.mid)}</td></tr>
+          <tr class="bx-tier" data-tier="high"><td>High <span class="bx-mult">55x</span></td><td class="bx-num">${fmtNum(sales.high)}</td></tr>
         </table>
       </div>
 
@@ -56,7 +56,7 @@
         </div>
       ` : `
         <div class="bx-section">
-          <div class="bx-section-title">Revenue (<span id="bx-tier-label">Mid 50x</span> · ${fmtMoney(basePrice, currency)})</div>
+          <div class="bx-section-title">Revenue (<span id="bx-tier-label">Mid 31x</span> · ${fmtMoney(basePrice, currency)})</div>
           <table class="bx-table" id="bx-revenue-table"></table>
           <label class="bx-vat">
             <input type="checkbox" id="bx-vat-toggle"> Apply VAT (20%)
@@ -67,7 +67,7 @@
       <div class="bx-footer">Rough estimate — treat as order of magnitude, not actual figures.</div>
     `;
 
-    const tierLabels = { low: 'Low 30x', mid: 'Mid 50x', high: 'High 70x' };
+    const tierLabels = { low: 'Low 20x', mid: 'Mid 31x', high: 'High 55x' };
     let currentTier = 'mid';
 
     if (!isFree) {
