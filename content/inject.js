@@ -3,7 +3,7 @@
 
   function fmtNum(n) {
     if (n == null || Number.isNaN(n)) return '-';
-    return Math.round(n).toLocaleString('es-AR');
+    return Math.round(n).toLocaleString('en-US');
   }
 
   function fmtMoney(n, currency) {
@@ -18,14 +18,14 @@
     if (reviews == null) {
       wrapper.innerHTML = `
         <div class="bx-header">💰 Gabe's Cut</div>
-        <div class="bx-empty">No se pudo detectar el numero de reviews en esta pagina.</div>`;
+        <div class="bx-empty">Couldn't detect the review count on this page.</div>`;
       return wrapper;
     }
 
     if (reviews === 0) {
       wrapper.innerHTML = `
         <div class="bx-header">💰 Gabe's Cut</div>
-        <div class="bx-empty">Sin reviews aun, no se puede estimar.</div>`;
+        <div class="bx-empty">No reviews yet — can't estimate.</div>`;
       return wrapper;
     }
 
@@ -38,11 +38,11 @@
       <div class="bx-header">💰 Gabe's Cut</div>
       <div class="bx-meta">
         <span><b>Reviews:</b> ${fmtNum(reviews)}</span>
-        <span><b>Precio base:</b> ${isFree ? 'F2P / 0' : fmtMoney(basePrice, currency)}</span>
+        <span><b>Base price:</b> ${isFree ? 'F2P / 0' : fmtMoney(basePrice, currency)}</span>
       </div>
 
       <div class="bx-section">
-        <div class="bx-section-title">Ventas estimadas (copias) <span class="bx-hint">click para usar</span></div>
+        <div class="bx-section-title">Estimated sales (copies) <span class="bx-hint">click to select</span></div>
         <table class="bx-table bx-sales-table">
           <tr class="bx-tier" data-tier="low"><td>Low <span class="bx-mult">30x</span></td><td class="bx-num">${fmtNum(sales.low)}</td></tr>
           <tr class="bx-tier bx-selected" data-tier="mid"><td>Mid <span class="bx-mult">50x</span></td><td class="bx-num">${fmtNum(sales.mid)}</td></tr>
@@ -52,19 +52,19 @@
 
       ${isFree ? `
         <div class="bx-section">
-          <div class="bx-empty">Juego F2P o sin precio detectable: revenue no calculable.</div>
+          <div class="bx-empty">F2P game or no detectable price — revenue can't be computed.</div>
         </div>
       ` : `
         <div class="bx-section">
           <div class="bx-section-title">Revenue (<span id="bx-tier-label">Mid 50x</span> · ${fmtMoney(basePrice, currency)})</div>
           <table class="bx-table" id="bx-revenue-table"></table>
           <label class="bx-vat">
-            <input type="checkbox" id="bx-vat-toggle"> Aplicar VAT (20%)
+            <input type="checkbox" id="bx-vat-toggle"> Apply VAT (20%)
           </label>
         </div>
       `}
 
-      <div class="bx-footer">Estimacion. Margen de error grande — usar como orden de magnitud.</div>
+      <div class="bx-footer">Rough estimate — treat as order of magnitude, not actual figures.</div>
     `;
 
     const tierLabels = { low: 'Low 30x', mid: 'Mid 50x', high: 'High 70x' };
@@ -86,7 +86,7 @@
               <td class="bx-deduction">− ${b.label} (${Math.round(b.rate * 100)}%)</td>
               <td class="bx-num bx-deduction">−${fmtMoney(b.deducted, currency)}</td>
             </tr>`),
-          `<tr class="bx-net"><td><b>Net al dev</b></td><td class="bx-num"><b>≈ ${fmtMoney(net, currency)}</b></td></tr>`,
+          `<tr class="bx-net"><td><b>Net to dev</b></td><td class="bx-num"><b>≈ ${fmtMoney(net, currency)}</b></td></tr>`,
         ];
         table.innerHTML = rows.join('');
       };
