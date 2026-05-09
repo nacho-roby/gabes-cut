@@ -2,6 +2,10 @@
 
 A Chrome extension that roughly estimates sales and revenue for any game on the Steam store, using the Boxleiter method (reviews × multiplier).
 
+![Gabe's Cut panel on a small indie release (Arranger, 319 reviews)](screenshots/panel-arranger.png)
+
+![Gabe's Cut panel on a big hit (Dave the Diver, ~48K reviews)](screenshots/panel-dave.png)
+
 ## About
 
 I'm an indie game developer from Argentina, and I built this to make market research a little less painful for fellow indies. When you're sizing up a genre, scoping a competitor, or deciding whether a niche is worth your next two years, you usually end up doing back-of-the-napkin math from Steam's review counts. Gabe's Cut just inlines that math directly on the store page so you don't have to.
