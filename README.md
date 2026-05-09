@@ -80,6 +80,14 @@ Issues and PRs are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md).
 - [Impress Games blog](https://impress.games/blog) — another solid source on Steam metrics, wishlist behavior, and indie launch dynamics.
 - [Impress Steam revenue calculator](https://impress.games/steam-revenue-calculator) — Impress's own wishlist-to-revenue calculator. If you want a different methodology to cross-check the numbers Gabe's Cut spits out, this is a good place to start.
 
+## Changelog
+
+### 2026-05-09 — Parser fixes
+
+- **Review count**: Steam recently split the review count between "your language" and "all languages", and the `meta[itemprop="reviewCount"]` tag now reports only the language-filtered figure. The parser now reads `.review_summary_count` (the cross-language total) as its primary source, with the meta tag and tooltip kept as fallbacks. Estimates on multi-language titles were previously undercounted — sometimes by 3x or more.
+- **F2P games with paid DLCs**: the parser was scanning the whole document for `.discount_original_price`, which on a F2P page would match the first DLC on sale (e.g. War Thunder showing a "$70 base price" from a discounted DLC). Price detection is now scoped to the base game's purchase block.
+- **Games with a demo**: when a game has a demo, Steam renders the demo's purchase block before the game's, which made the parser pick up the demo and report the title as F2P. The parser now skips purchase blocks that have no price elements (demos, playtests, soundtracks).
+
 ## License
 
 [MIT](LICENSE) © Nacho Roby

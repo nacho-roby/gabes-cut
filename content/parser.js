@@ -1,10 +1,22 @@
 (function () {
   function parseReviewCount() {
-    const meta = document.querySelector('meta[itemprop="reviewCount"]');
-    if (meta && meta.content) {
-      const n = parseInt(meta.content, 10);
-      if (!Number.isNaN(n)) return n;
+    // Steam now splits review counts: meta[itemprop="reviewCount"] reports only the user's language.
+    // The cross-language total lives in .review_summary_count.
+    const totalEl = document.querySelector('.review_summary_count');
+    if (totalEl) {
+      const m = totalEl.textContent.match(/([\d.,]+)/);
+      if (m) {
+        const n = parseInt(m[1].replace(/[.,]/g, ''), 10);
+        if (!Number.isNaN(n) && n > 0) return n;
+      }
     }
+    const metas = document.querySelectorAll('meta[itemprop="reviewCount"]');
+    let maxFromMeta = 0;
+    for (const meta of metas) {
+      const n = parseInt(meta.content, 10);
+      if (!Number.isNaN(n) && n > maxFromMeta) maxFromMeta = n;
+    }
+    if (maxFromMeta > 0) return maxFromMeta;
     const tooltip = document.querySelector('#userReviews .user_reviews_summary_row[data-tooltip-html]');
     if (tooltip) {
       const html = tooltip.getAttribute('data-tooltip-html') || '';
@@ -26,12 +38,27 @@
   }
 
   function parsePrice() {
-    const original = document.querySelector('.discount_original_price');
+    // Scope to the base game's purchase block so DLC/bundle prices listed lower
+    // on the page can't be picked up by accident (e.g. F2P games with paid DLCs).
+    // Skip blocks without price elements — those are demos, playtests, soundtracks, etc.
+    const candidates = document.querySelectorAll(
+      '#game_area_purchase .game_area_purchase_game_wrapper, #game_area_purchase .game_area_purchase_game, .game_area_purchase_game_wrapper, .game_area_purchase_game'
+    );
+    let baseScope = null;
+    for (const el of candidates) {
+      if (el.querySelector('.game_purchase_price, .discount_original_price')) {
+        baseScope = el;
+        break;
+      }
+    }
+    const scope = baseScope || document;
+
+    const original = scope.querySelector('.discount_original_price');
     if (original) {
       const parsed = parsePriceText(original.textContent);
       if (parsed) return parsed;
     }
-    const finalEl = document.querySelector('.game_purchase_price[data-price-final]');
+    const finalEl = scope.querySelector('.game_purchase_price[data-price-final]');
     if (finalEl) {
       const cents = parseInt(finalEl.dataset.priceFinal, 10);
       if (!Number.isNaN(cents)) {
@@ -44,7 +71,7 @@
       const parsed = parsePriceText(finalEl.textContent);
       if (parsed) return parsed;
     }
-    const any = document.querySelector('.game_purchase_price');
+    const any = scope.querySelector('.game_purchase_price');
     if (any) {
       const parsed = parsePriceText(any.textContent);
       if (parsed) return parsed;
