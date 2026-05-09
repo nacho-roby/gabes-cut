@@ -6,7 +6,7 @@ A Chrome extension that estimates sales and revenue for any game on the Steam st
 
 I'm an indie game developer from Argentina, and I built this to make market research a little less painful for fellow indies. When you're sizing up a genre, scoping a competitor, or deciding whether a niche is worth your next two years, you usually end up doing back-of-the-napkin math from Steam's review counts. Gabe's Cut just inlines that math directly on the store page so you don't have to.
 
-This extension was built with AI assistance.
+This extension was built with AI assistance (and maybe, just maybe, entirely with AI).
 
 > **Disclaimer:** independent project, not affiliated with Valve or Steam. The numbers are rough estimates — useful as an order of magnitude, not as actual revenue figures.
 
