@@ -1,39 +1,39 @@
-# Contribuir a Gabe's Cut
+# Contributing to Gabe's Cut
 
-¡Gracias por interesarte! Issues y PRs son bienvenidos.
+Thanks for your interest! Issues and PRs are welcome.
 
-## Levantar el proyecto
+## Running locally
 
-No hay build step — es JS vanilla cargado directo por el manifest.
+There's no build step — it's plain JS loaded directly by the manifest.
 
-1. Cloná el repo.
-2. `chrome://extensions` → Developer mode → **Load unpacked** → elegí la carpeta.
-3. Hacé cambios en `lib/`, `content/` o `manifest.json`.
-4. Volvé a `chrome://extensions` y tocá el botón de reload de la extensión.
-5. Recargá una página de juego en Steam para ver los cambios.
+1. Clone the repo.
+2. `chrome://extensions` → Developer mode → **Load unpacked** → pick the folder.
+3. Make changes in `lib/`, `content/`, or `manifest.json`.
+4. Go back to `chrome://extensions` and hit the reload button on the extension card.
+5. Refresh a Steam game page to see the changes.
 
-## Estructura
+## Project layout
 
-- `lib/calc.js` — lógica pura del método Boxleiter + cascada de deducciones. Sin DOM.
-- `content/parser.js` — extrae reviews y precio del DOM de Steam. Si Steam cambia su markup, este archivo es lo primero que rompe.
-- `content/inject.js` — construye el panel y maneja interacción (toggle de tier, VAT).
-- `content/panel.css` — estilos del panel.
+- `lib/calc.js` — pure logic for the Boxleiter method + deduction cascade. No DOM access.
+- `content/parser.js` — extracts reviews and price from Steam's DOM. If Steam changes its markup, this is the first file that breaks.
+- `content/inject.js` — builds the panel and handles interaction (tier toggle, VAT).
+- `content/panel.css` — panel styles.
 
-## Pull Requests
+## Pull requests
 
-- Mantené los PRs chicos y enfocados.
-- Si cambiás los multiplicadores o las deducciones de [lib/calc.js](lib/calc.js), justificá la fuente en la descripción del PR.
-- Si Steam cambia su DOM y rompe el parser, abrí un issue con la URL del juego afectado.
+- Keep PRs small and focused.
+- If you change the multipliers or deductions in [lib/calc.js](lib/calc.js), justify the source in the PR description.
+- If Steam changes its DOM and the parser breaks, please open an issue with the URL of the affected game page.
 
 ## Issues
 
-Plantilla mínima:
+Minimum template:
 
-- **Qué pasó** vs **qué esperabas**.
-- URL del juego en Steam donde se reproduce.
-- Versión de Chrome y de la extensión.
-- Captura del panel si aplica.
+- **What happened** vs **what you expected**.
+- URL of the Steam game where the issue reproduces.
+- Chrome version and extension version.
+- Screenshot of the panel if relevant.
 
-## Código de conducta
+## Code of conduct
 
-Sé respetuoso. Discutimos código y métodos, no personas.
+Be respectful. We discuss code and methodology, not people.

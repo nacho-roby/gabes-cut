@@ -1,67 +1,61 @@
 # Gabe's Cut
 
-Extensión de Chrome que estima ventas y revenue de juegos de la Steam store usando el método [Boxleiter](https://howtomarketagame.com/2021/04/26/the-boxleiter-method-for-estimating-steam-sales/) (reviews × multiplicador).
+A Chrome extension that estimates sales and revenue for any game on the Steam store, using the [Boxleiter method](https://howtomarketagame.com/2021/04/26/the-boxleiter-method-for-estimating-steam-sales/) (reviews × multiplier).
 
-El nombre es un guiño al famoso 30% que Valve se queda de cada venta — esa deducción aparece en el panel literalmente como "Gabe's Cut".
+## About
 
-> **Disclaimer:** proyecto independiente, sin afiliación con Valve ni con Steam. Los números son estimaciones aproximadas, útiles como orden de magnitud, no como cifras reales.
+I'm an indie game developer from Argentina, and I built this to make market research a little less painful for fellow indies. When you're sizing up a genre, scoping a competitor, or deciding whether a niche is worth your next two years, you usually end up doing back-of-the-napkin math from Steam's review counts. Gabe's Cut just inlines that math directly on the store page so you don't have to.
 
-## Cómo funciona
+This extension was built with AI assistance.
 
-Cuando entrás a una página de juego en `store.steampowered.com/app/...`, la extensión:
+> **Disclaimer:** independent project, not affiliated with Valve or Steam. The numbers are rough estimates — useful as an order of magnitude, not as actual revenue figures.
 
-1. Lee el número de reviews y el precio del DOM.
-2. Estima copias vendidas multiplicando reviews × 30 / 50 / 70 (low / mid / high).
-3. Calcula revenue gross y aplica una cascada de deducciones para llegar al neto que se queda el dev:
-   - Descuentos promedio en sales (-10%)
+## How it works
+
+When you visit a game page on `store.steampowered.com/app/...`, the extension:
+
+1. Reads the review count and listed price from the DOM.
+2. Estimates copies sold using the Boxleiter method: `reviews × multiplier`, where the multiplier is **30 (low)**, **50 (mid)** or **70 (high)**. You can click any of the three tiers in the panel to see how the revenue breakdown shifts — useful for stress-testing your assumptions on conservative vs. optimistic scenarios.
+3. Computes gross revenue (`sales × listed price`) and applies a multiplicative cascade of deductions to estimate what the developer actually takes home:
+   - Average sale discounts (-10%)
    - Refunds (-5%)
    - Regional pricing / PPP (-15%)
-   - **Gabe's Cut** (-30%)
-   - VAT opcional (-20%, off por default)
-4. Inyecta un panel arriba del bloque de compra con los resultados.
+   - **Gabe's Cut** — Valve's 30% storefront fee, the namesake of this extension
+   - VAT (-20%, optional, off by default)
+4. Injects a panel above the purchase block with the full breakdown.
 
-## Instalación (modo desarrollador)
+The "net to dev" figure usually lands around 40–50% of the theoretical gross — a sobering reminder that sticker price and actual income are very different numbers.
 
-1. Cloná o descargá este repo.
-2. Abrí `chrome://extensions`.
-3. Activá **Developer mode** (arriba a la derecha).
-4. Click en **Load unpacked** y elegí la carpeta del repo.
-5. Navegá a cualquier juego en `https://store.steampowered.com/app/...`.
+## Install (developer mode)
 
-## Estructura
+1. Clone or download this repo.
+2. Open `chrome://extensions`.
+3. Enable **Developer mode** (top right).
+4. Click **Load unpacked** and select the repo folder.
+5. Browse to any game on `https://store.steampowered.com/app/...`.
+
+## Project structure
 
 ```
 .
 ├── manifest.json          # Manifest V3
 ├── lib/
-│   └── calc.js            # Boxleiter + cascada de deducciones
+│   └── calc.js            # Boxleiter math + deduction cascade
 ├── content/
-│   ├── parser.js          # extrae reviews y precio del DOM
-│   ├── inject.js          # arma el panel y maneja interacción
-│   └── panel.css          # estilos del panel
+│   ├── parser.js          # extracts reviews and price from the DOM
+│   ├── inject.js          # builds the panel and handles interaction
+│   └── panel.css          # panel styles
 └── icons/
-    ├── icon.svg           # vector original
-    ├── icon16.png / icon48.png / icon128.png
-    └── generate-icons.ps1 # regenera los PNG desde el SVG
+    ├── icon.svg
+    ├── icon16.png
+    ├── icon48.png
+    └── icon128.png
 ```
 
-## Regenerar iconos
+## Contributing
 
-```powershell
-pwsh ./icons/generate-icons.ps1
-```
+Issues and PRs are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
-## Publicar en la Chrome Web Store
+## License
 
-1. Empaquetar la raíz como zip (sin `.git`, sin `generate-icons.ps1`, sin docs).
-2. Subir en https://chrome.google.com/webstore/devconsole (USD 5 una vez para registrarte).
-3. Privacy practices: declarar que **no** se recolectan datos — la extensión solo lee el DOM local.
-4. **No** usar el logo de Steam ni el branding de Valve en screenshots/iconos.
-
-## Contribuir
-
-Issues y PRs bienvenidos. Ver [CONTRIBUTING.md](CONTRIBUTING.md).
-
-## Licencia
-
-[MIT](LICENSE) © Juan Ignacio Roby
+[MIT](LICENSE) © Nacho Roby
