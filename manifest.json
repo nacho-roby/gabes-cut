@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "Gabe's Cut",
+  "version": "1.0.0",
+  "description": "Estima ventas y revenue de juegos en la Steam store con el metodo Boxleiter (reviews x multiplier).",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "host_permissions": [
+    "https://store.steampowered.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://store.steampowered.com/app/*"],
+      "js": [
+        "lib/calc.js",
+        "content/parser.js",
+        "content/inject.js"
+      ],
+      "css": ["content/panel.css"],
+      "run_at": "document_idle"
+    }
+  ]
+}

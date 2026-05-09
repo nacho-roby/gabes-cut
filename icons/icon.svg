@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2a475e"/>
+      <stop offset="100%" stop-color="#1b2838"/>
+    </linearGradient>
+    <linearGradient id="screen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0a1218"/>
+      <stop offset="100%" stop-color="#1b2838"/>
+    </linearGradient>
+    <radialGradient id="ball" cx="0.35" cy="0.35" r="0.7">
+      <stop offset="0%" stop-color="#ff6b5b"/>
+      <stop offset="100%" stop-color="#a02a1f"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Fondo redondeado -->
+  <rect x="0" y="0" width="128" height="128" rx="22" fill="url(#bg)"/>
+  <rect x="2" y="2" width="124" height="124" rx="20" fill="none" stroke="#66c0f4" stroke-width="1.5" opacity="0.4"/>
+
+  <!-- Calculadora (mitad izquierda) -->
+  <g transform="translate(10, 22)">
+    <!-- cuerpo -->
+    <rect x="0" y="0" width="58" height="86" rx="6" fill="#c7d5e0" stroke="#66c0f4" stroke-width="1.5"/>
+    <!-- pantalla -->
+    <rect x="5" y="5" width="48" height="20" rx="2" fill="url(#screen)"/>
+    <text x="50" y="20" text-anchor="end" font-family="monospace, Consolas" font-size="14" font-weight="bold" fill="#a4d007">$$$</text>
+    <!-- botones (4 cols x 4 rows) -->
+    <g fill="#1b2838">
+      <rect x="6" y="32"  width="10" height="10" rx="1.5"/>
+      <rect x="20" y="32" width="10" height="10" rx="1.5"/>
+      <rect x="34" y="32" width="10" height="10" rx="1.5"/>
+      <rect x="48" y="32" width="6"  height="10" rx="1.5" fill="#66c0f4"/>
+
+      <rect x="6" y="46"  width="10" height="10" rx="1.5"/>
+      <rect x="20" y="46" width="10" height="10" rx="1.5"/>
+      <rect x="34" y="46" width="10" height="10" rx="1.5"/>
+      <rect x="48" y="46" width="6"  height="10" rx="1.5" fill="#66c0f4"/>
+
+      <rect x="6" y="60"  width="10" height="10" rx="1.5"/>
+      <rect x="20" y="60" width="10" height="10" rx="1.5"/>
+      <rect x="34" y="60" width="10" height="10" rx="1.5"/>
+      <rect x="48" y="60" width="6"  height="10" rx="1.5" fill="#a4d007"/>
+
+      <rect x="6" y="74"  width="24" height="10" rx="1.5"/>
+      <rect x="34" y="74" width="10" height="10" rx="1.5"/>
+      <rect x="48" y="74" width="6"  height="10" rx="1.5" fill="#a4d007"/>
+    </g>
+  </g>
+
+  <!-- Joystick (mitad derecha, asomando) -->
+  <g transform="translate(74, 0)">
+    <!-- sombra base -->
+    <ellipse cx="22" cy="106" rx="22" ry="4" fill="#000" opacity="0.4"/>
+    <!-- base del joystick -->
+    <rect x="2" y="82" width="40" height="22" rx="4" fill="#2a3f5a" stroke="#66c0f4" stroke-width="1.2"/>
+    <!-- botones de la base -->
+    <circle cx="9" cy="93" r="2.2" fill="#a4d007"/>
+    <circle cx="16" cy="93" r="2.2" fill="#c0392b"/>
+    <circle cx="28" cy="93" r="2.2" fill="#f1c40f"/>
+    <circle cx="35" cy="93" r="2.2" fill="#66c0f4"/>
+    <!-- palanca -->
+    <rect x="19" y="38" width="6" height="46" fill="#1b2838" stroke="#66c0f4" stroke-width="1.2"/>
+    <!-- bola roja arriba -->
+    <circle cx="22" cy="36" r="13" fill="url(#ball)" stroke="#fff" stroke-width="1.5"/>
+    <circle cx="18" cy="32" r="3.5" fill="#fff" opacity="0.5"/>
+  </g>
+</svg>

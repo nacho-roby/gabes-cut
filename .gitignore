@@ -1,0 +1,20 @@
+# Build artifacts
+*.zip
+dist/
+build/
+
+# Chrome extension signing key
+*.pem
+
+# Dependencies (por si en algún momento se agrega un build step)
+node_modules/
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Env
+.env
+.env.local

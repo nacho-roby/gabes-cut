@@ -1,0 +1,141 @@
+.boxleiter-panel {
+  background: linear-gradient(135deg, #1b2838 0%, #2a3f5a 100%);
+  border: 1px solid #66c0f4;
+  border-radius: 6px;
+  padding: 14px 16px;
+  margin: 12px 0;
+  color: #c7d5e0;
+  font-family: "Motiva Sans", Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.boxleiter-panel .bx-header {
+  font-size: 15px;
+  font-weight: bold;
+  color: #66c0f4;
+  margin-bottom: 10px;
+  border-bottom: 1px solid rgba(102, 192, 244, 0.3);
+  padding-bottom: 6px;
+}
+
+.boxleiter-panel .bx-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+  font-size: 12px;
+}
+
+.boxleiter-panel .bx-meta b {
+  color: #ffffff;
+}
+
+.boxleiter-panel .bx-section {
+  margin-top: 10px;
+}
+
+.boxleiter-panel .bx-section-title {
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 6px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.boxleiter-panel .bx-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.boxleiter-panel .bx-table td {
+  padding: 3px 0;
+  vertical-align: top;
+}
+
+.boxleiter-panel .bx-num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: #ffffff;
+}
+
+.boxleiter-panel .bx-tier {
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.boxleiter-panel .bx-tier:hover {
+  background: rgba(102, 192, 244, 0.12);
+}
+
+.boxleiter-panel .bx-tier.bx-selected {
+  background: rgba(102, 192, 244, 0.22);
+  box-shadow: inset 3px 0 0 #66c0f4;
+}
+
+.boxleiter-panel .bx-tier.bx-selected td:first-child::before {
+  content: "▸ ";
+  color: #66c0f4;
+}
+
+.boxleiter-panel .bx-hint {
+  font-size: 10px;
+  color: #6b7884;
+  font-weight: normal;
+  text-transform: none;
+  letter-spacing: 0;
+  margin-left: 6px;
+  font-style: italic;
+}
+
+.boxleiter-panel .bx-mult {
+  color: #8f98a0;
+  font-size: 11px;
+  margin-left: 4px;
+}
+
+.boxleiter-panel .bx-deduction {
+  color: #8f98a0;
+  font-size: 11px;
+  padding-left: 12px;
+}
+
+.boxleiter-panel .bx-net td {
+  border-top: 1px solid rgba(102, 192, 244, 0.3);
+  padding-top: 6px;
+  margin-top: 6px;
+}
+
+.boxleiter-panel .bx-net b {
+  color: #a4d007;
+}
+
+.boxleiter-panel .bx-vat {
+  display: block;
+  margin-top: 8px;
+  font-size: 11px;
+  color: #8f98a0;
+  cursor: pointer;
+  user-select: none;
+}
+
+.boxleiter-panel .bx-vat input {
+  margin-right: 4px;
+  vertical-align: middle;
+}
+
+.boxleiter-panel .bx-empty {
+  color: #8f98a0;
+  font-style: italic;
+  padding: 8px 0;
+}
+
+.boxleiter-panel .bx-footer {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(102, 192, 244, 0.15);
+  font-size: 10px;
+  color: #6b7884;
+  font-style: italic;
+}
