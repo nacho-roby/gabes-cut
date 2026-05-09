@@ -24,15 +24,21 @@ When you visit a game page on `store.steampowered.com/app/...`, the extension:
    - VAT (-20%, optional, off by default)
 4. Injects a panel above the purchase block with the full breakdown.
 
-The "net to dev" figure usually lands around 40–50% of the theoretical gross — a sobering reminder that sticker price and actual income are very different numbers.
+The "net to dev" figure usually lands around 40–50% of the theoretical gross. Yes, that's the part where your spreadsheet stops looking fun.
 
-## Install (developer mode)
+## The honest origin story
+
+This wasn't planned. One restless night I was scrolling Steam, looking at random games, doing the same dumb mental loop every indie dev does — *I wonder how this one did. And this one. And this one.* At some point I caught myself, opened a chat window, and prompted the idea into existence.
+
+I haven't shipped it to the Chrome Web Store because, well, I've never shipped anything to the Chrome Web Store. Maybe I'll get the itch one day and figure out the dev console dance. Maybe I won't. Either way, the code is here — feel free to fork it, ship your own version, slap your name on it, sell it, whatever. The MIT license means I'm not going to come knocking.
+
+## Install (the rustic way, since it's not on the Web Store)
 
 1. Clone or download this repo.
 2. Open `chrome://extensions`.
-3. Enable **Developer mode** (top right).
+3. Enable **Developer mode** (top right) — this is the part that makes you feel like a hacker for ten seconds.
 4. Click **Load unpacked** and select the repo folder.
-5. Browse to any game on `https://store.steampowered.com/app/...`.
+5. Browse to any game on `https://store.steampowered.com/app/...` and the panel appears.
 
 ## Project structure
 
