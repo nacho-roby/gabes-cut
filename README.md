@@ -1,6 +1,6 @@
 # Gabe's Cut
 
-A Chrome extension that roughly estimates sales and revenue for any game on the Steam store, using the [Boxleiter method](https://howtomarketagame.com/2021/04/26/the-boxleiter-method-for-estimating-steam-sales/) (reviews × multiplier).
+A Chrome extension that roughly estimates sales and revenue for any game on the Steam store, using the Boxleiter method (reviews × multiplier).
 
 ## About
 
@@ -15,7 +15,7 @@ This extension was built with AI assistance (and maybe, just maybe, entirely wit
 When you visit a game page on `store.steampowered.com/app/...`, the extension:
 
 1. Reads the review count and listed price from the DOM.
-2. Estimates copies sold using the Boxleiter method: `reviews × multiplier`. The defaults are anchored to [Chris Zukowski's benchmarks](https://howtomarketagame.com/benchmarks/) — Zukowski (How to Market a Game) is one of the most recognized voices in indie game marketing, and his ~31 sales-per-review figure is the most widely cited modern estimate. The three tiers shipped here are **20x (low)**, **31x (mid, default)** and **55x (high)**. You can click any tier in the panel to see how the revenue breakdown shifts — useful for stress-testing your assumptions on conservative vs. optimistic scenarios.
+2. Estimates copies sold using the Boxleiter method: `reviews × multiplier`. The method itself has been around for years and has been adapted by different analysts over time as Steam's review behavior evolved. The most widely cited modern figure of around **31 sales per review** comes from [Chris Zukowski's benchmarks](https://howtomarketagame.com/benchmarks/) — Chris is one of the most recognized voices in indie game marketing, and there's a reasonable consensus building around that number. Given that, the three tiers shipped here are **20x (low)**, **31x (mid, default)** and **55x (high)**. Click any tier in the panel to see how the revenue breakdown shifts — useful for stress-testing your assumptions on conservative vs. optimistic scenarios.
 3. Computes gross revenue (`sales × listed price`) and applies a multiplicative cascade of deductions to estimate what the developer actually takes home:
    - Average sale discounts (-10%)
    - Refunds (-5%)
@@ -72,8 +72,9 @@ Issues and PRs are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## References & further reading
 
-- [How to Market a Game — Benchmarks](https://howtomarketagame.com/benchmarks/) — Chris Zukowski's living document on Steam benchmarks, the source for the default 31x multiplier.
-- [The Boxleiter method explained](https://howtomarketagame.com/2021/04/26/the-boxleiter-method-for-estimating-steam-sales/) — background on where this estimation approach comes from.
+- [How to Market a Game](https://howtomarketagame.com/) — Chris Zukowski's blog. Deep well of indie marketing analysis; the [Benchmarks](https://howtomarketagame.com/benchmarks/) page is the source for the default 31x multiplier.
+- [Impress Games blog](https://impress.games/blog) — another solid source on Steam metrics, wishlist behavior, and indie launch dynamics.
+- [Impress Steam revenue calculator](https://impress.games/steam-revenue-calculator) — Impress's own wishlist-to-revenue calculator. If you want a different methodology to cross-check the numbers Gabe's Cut spits out, this is a good place to start.
 
 ## License
 
