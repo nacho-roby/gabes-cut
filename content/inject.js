@@ -1,6 +1,34 @@
 (function () {
   const { calc, parser } = window.Boxleiter;
 
+  const STORAGE_KEY = 'boxleiter_settings';
+  const DEFAULT_SETTINGS = {
+    avgDiscount: calc.DEDUCTIONS.averageDiscount,
+    refunds: calc.DEDUCTIONS.refunds,
+  };
+  const RANGES = {
+    avgDiscount: { min: 0, max: 50 },
+    refunds:     { min: 0, max: 20 },
+  };
+
+  function loadSettings() {
+    return new Promise(resolve => {
+      if (typeof chrome === 'undefined' || !chrome.storage || !chrome.storage.local) {
+        resolve({ ...DEFAULT_SETTINGS });
+        return;
+      }
+      chrome.storage.local.get([STORAGE_KEY], (result) => {
+        const stored = (result && result[STORAGE_KEY]) || {};
+        resolve({ ...DEFAULT_SETTINGS, ...stored });
+      });
+    });
+  }
+
+  function saveSettings(settings) {
+    if (typeof chrome === 'undefined' || !chrome.storage || !chrome.storage.local) return;
+    chrome.storage.local.set({ [STORAGE_KEY]: settings });
+  }
+
   function fmtNum(n) {
     if (n == null || Number.isNaN(n)) return '-';
     return Math.round(n).toLocaleString('en-US');
@@ -10,7 +38,7 @@
     return `${currency}${fmtNum(n)}`;
   }
 
-  function buildPanel({ title, reviews, price }) {
+  function buildPanel({ title, reviews, price }, settings) {
     const wrapper = document.createElement('div');
     wrapper.className = 'boxleiter-panel';
     wrapper.id = 'boxleiter-panel';
@@ -33,6 +61,22 @@
     const isFree = !price || price.amount === 0;
     const currency = price ? price.currency : '$';
     const basePrice = price ? price.amount : 0;
+
+    const current = { ...settings };
+
+    const slider = (key, label) => {
+      const r = RANGES[key];
+      const pct = Math.round(current[key] * 100);
+      return `
+        <div class="bx-control">
+          <label class="bx-control-label" for="bx-${key}-num">${label}</label>
+          <input type="range" class="bx-slider" id="bx-${key}-slider"
+                 min="${r.min}" max="${r.max}" step="1" value="${pct}">
+          <input type="number" class="bx-num-input" id="bx-${key}-num"
+                 min="${r.min}" max="${r.max}" step="1" value="${pct}">
+          <span class="bx-pct">%</span>
+        </div>`;
+    };
 
     wrapper.innerHTML = `
       <div class="bx-header">💰 Gabe's Cut</div>
@@ -57,6 +101,10 @@
       ` : `
         <div class="bx-section">
           <div class="bx-section-title">Revenue (<span id="bx-tier-label">Mid 31x</span> · ${fmtMoney(basePrice, currency)})</div>
+          <div class="bx-controls">
+            ${slider('avgDiscount', 'Avg. discount')}
+            ${slider('refunds', 'Refunds & returns')}
+          </div>
           <table class="bx-table" id="bx-revenue-table"></table>
           <label class="bx-vat">
             <input type="checkbox" id="bx-vat-toggle"> Apply VAT (20%)
@@ -77,7 +125,11 @@
 
       const render = () => {
         const applyVAT = toggle.checked;
-        const { gross, net, breakdown } = calc.estimateRevenue(sales[currentTier], basePrice, { applyVAT });
+        const { gross, net, breakdown } = calc.estimateRevenue(sales[currentTier], basePrice, {
+          applyVAT,
+          averageDiscount: current.avgDiscount,
+          refunds: current.refunds,
+        });
         tierLabelEl.textContent = tierLabels[currentTier];
         const rows = [
           `<tr><td>Gross</td><td class="bx-num">${fmtMoney(gross, currency)}</td></tr>`,
@@ -90,6 +142,26 @@
         ];
         table.innerHTML = rows.join('');
       };
+
+      const wireControl = (key) => {
+        const slider = wrapper.querySelector(`#bx-${key}-slider`);
+        const num = wrapper.querySelector(`#bx-${key}-num`);
+        const r = RANGES[key];
+        const apply = (raw) => {
+          let val = parseInt(raw, 10);
+          if (Number.isNaN(val)) val = 0;
+          val = Math.max(r.min, Math.min(r.max, val));
+          slider.value = String(val);
+          num.value = String(val);
+          current[key] = val / 100;
+          saveSettings(current);
+          render();
+        };
+        slider.addEventListener('input', () => apply(slider.value));
+        num.addEventListener('input', () => apply(num.value));
+      };
+      wireControl('avgDiscount');
+      wireControl('refunds');
 
       render();
       toggle.addEventListener('change', render);
@@ -106,10 +178,11 @@
     return wrapper;
   }
 
-  function mount() {
+  async function mount() {
     if (document.getElementById('boxleiter-panel')) return;
+    const settings = await loadSettings();
     const data = parser.parseGame();
-    const panel = buildPanel(data);
+    const panel = buildPanel(data, settings);
 
     const purchase = document.querySelector('#game_area_purchase');
     const reviewsBlock = document.querySelector('#userReviews');

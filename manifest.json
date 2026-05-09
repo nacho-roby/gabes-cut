@@ -11,6 +11,7 @@
   "host_permissions": [
     "https://store.steampowered.com/*"
   ],
+  "permissions": ["storage"],
   "content_scripts": [
     {
       "matches": ["https://store.steampowered.com/app/*"],

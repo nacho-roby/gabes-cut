@@ -82,6 +82,12 @@ Issues and PRs are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Changelog
 
+### 2026-05-09 — Tunable deductions
+
+- **Average discount and refunds & returns are now sliders.** Both values were hardcoded before (10% and 5%); they're now adjustable in-panel via slider + numeric input combos and persist across pages and sessions via `chrome.storage.local`.
+- **Defaults updated.** Average discount default raised from 10% to **25%** (the old 10% was optimistic for titles past their launch window — most copies are sold at a discount). Refunds & returns default raised from 5% to **10%**, matching the lower end of the indie return-rate range cited by industry tools.
+- **Label clarified.** The "Refunds" deduction is now "Refunds & returns" — same concept, less ambiguous.
+
 ### 2026-05-09 — Parser fixes
 
 - **Review count**: Steam recently split the review count between "your language" and "all languages", and the `meta[itemprop="reviewCount"]` tag now reports only the language-filtered figure. The parser now reads `.review_summary_count` (the cross-language total) as its primary source, with the meta tag and tooltip kept as fallbacks. Estimates on multi-language titles were previously undercounted — sometimes by 3x or more.
