@@ -30,6 +30,12 @@ When you visit a game page on `store.steampowered.com/app/...`, the extension:
 
 The "net to dev" figure usually lands around 40–50% of the theoretical gross. Yes, that's the part where your spreadsheet stops looking fun.
 
+## The honest origin story
+
+I was scrolling Steam one night, looking at random games and wondering — *huh, I wonder how this one actually did.* I remembered there was some Chrome extension floating around that did this kind of estimation, but every time I'd tried it, it worked half-broken. So I went *yeah, screw it, I'll just make my own*, and that's how this got started.
+
+I haven't shipped it to the Chrome Web Store because, well, I've never shipped anything to the Chrome Web Store. Maybe I'll get the itch one day and figure out the dev console dance. Maybe I won't. Either way, the code is here — feel free to fork it, ship your own version, slap your name on it, sell it, whatever. The MIT license means I'm not going to come knocking.
+
 ## A note on the methodology (please push back)
 
 The reviews-to-sales multiplier is **genuinely contested**. Different researchers, different years, different game categories — they all produce different numbers. 31 is the central estimate I anchored to, but you'll find perfectly defensible cases for anything from ~20 to ~60 depending on genre, price point, region, and how aggressively a game prompts for reviews.
@@ -44,7 +50,7 @@ This one bit me hard while building the tool, so it deserves its own subsection.
 
 Every credible third-party estimator (Gamalytic, Steam Page Analyzer, Impress, Boxleiter himself) anchors on the **US MSRP in USD** as the single canonical reference. The deductions we apply (`Regional pricing -15%` in particular) only make sense if we start from the US figure and *then* model the global mix of cheaper regions. Starting from the local price and deducting -15% would be the wrong move for everyone outside the US.
 
-So that's what we do: when the panel loads, we hit Steam's own `appdetails` API with `cc=us` to grab the regular MSRP in USD, cache it for 24 hours, and use that as the base for the entire revenue cascade. The number you see next to **Base price (US)** is *not* what your store page is showing you — it's what the same game costs in dollars to a US buyer. If Steam's API is unavailable for some reason, we fall back to the previously cached Gamalytic price, and as a last resort to the regional price your DOM shows (with a visible warning, and the regional-pricing deduction is automatically skipped to avoid the double-counting).
+So that's what we do: the panel pulls the regular US dollar price from Steam directly and uses it as the base for the entire revenue cascade, no matter where you're browsing from. The number you see next to **Base price (US)** is *not* what your store page is showing you (unless you live in the US, daaa) — it's what the same game costs in dollars to a US buyer. If for any reason that price can't be fetched, the panel falls back to other sources and shows a warning so you know the figures are rougher than usual.
 
 ### Why average discount and refunds & returns are sliders (but the multiplier isn't)
 
@@ -54,13 +60,7 @@ The reviews-to-sales multiplier deliberately *isn't* a slider in the same way. I
 
 Regional pricing (-15%), Steam's cut (-30%), and VAT (-20%) are *not* dials because they're not really opinions — they're either platform constants Valve sets, or empirically measured global averages that don't move much from project to project. Slider'ing those would just give the panel false precision.
 
-If your slider values look like sensible defaults you want to keep, they persist locally between pages and sessions via `chrome.storage.local`. There's a small "Reset to defaults" link below the sliders if you want to revert.
-
-## The honest origin story
-
-I was scrolling Steam one night, looking at random games and wondering — *huh, I wonder how this one actually did.* I remembered there was some Chrome extension floating around that did this kind of estimation, but every time I'd tried it, it worked half-broken. So I went *yeah, screw it, I'll just make my own*, and that's how this got started.
-
-I haven't shipped it to the Chrome Web Store because, well, I've never shipped anything to the Chrome Web Store. Maybe I'll get the itch one day and figure out the dev console dance. Maybe I won't. Either way, the code is here — feel free to fork it, ship your own version, slap your name on it, sell it, whatever. The MIT license means I'm not going to come knocking.
+Whatever values you settle on, the panel remembers them between pages and sessions, and there's a small "Reset to defaults" link if you want to revert.
 
 ## Install (the rustic way, since it's not on the Web Store)
 
