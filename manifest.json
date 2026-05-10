@@ -9,9 +9,13 @@
     "128": "icons/icon128.png"
   },
   "host_permissions": [
-    "https://store.steampowered.com/*"
+    "https://store.steampowered.com/*",
+    "https://gamalytic.com/*"
   ],
   "permissions": ["storage"],
+  "background": {
+    "service_worker": "background/bg.js"
+  },
   "content_scripts": [
     {
       "matches": ["https://store.steampowered.com/app/*"],

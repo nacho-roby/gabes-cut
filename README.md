@@ -34,9 +34,27 @@ The "net to dev" figure usually lands around 40–50% of the theoretical gross. 
 
 The reviews-to-sales multiplier is **genuinely contested**. Different researchers, different years, different game categories — they all produce different numbers. 31 is the central estimate I anchored to, but you'll find perfectly defensible cases for anything from ~20 to ~60 depending on genre, price point, region, and how aggressively a game prompts for reviews.
 
-Same goes for the deduction cascade: -10% average discount, -5% refunds, -15% regional pricing — those are reasonable industry rules of thumb, not laws of physics. Your mileage will vary.
+Same goes for the deduction cascade: average discounts, refunds, regional pricing — those are reasonable industry rules of thumb, not laws of physics. Your mileage will vary.
 
 If you think any of these numbers are wrong, **please tell me — or just fix it yourself**. Open an issue, send a PR, or fork the repo and ship your own version with whatever multipliers you trust. Suggestions, debates, and "actually, here's a better source" comments are all very welcome. That's literally the point of having this on GitHub.
+
+### Why we anchor on the US price (and why your local Steam page lies)
+
+This one bit me hard while building the tool, so it deserves its own subsection. **Steam regional pricing varies massively** — the same game can list at $9 in Argentina, $17.99 in the US, and $25 in Switzerland, all at the exact same moment. If the panel just read whatever price your local Steam page happens to show, two devs comparing notes on the same game would see revenue figures that diverge by 2–3x for no good reason — and any deduction we applied for "regional pricing" would already be partially baked into the local price, which would double-count.
+
+Every credible third-party estimator (Gamalytic, Steam Page Analyzer, Impress, Boxleiter himself) anchors on the **US MSRP in USD** as the single canonical reference. The deductions we apply (`Regional pricing -15%` in particular) only make sense if we start from the US figure and *then* model the global mix of cheaper regions. Starting from the local price and deducting -15% would be the wrong move for everyone outside the US.
+
+So that's what we do: when the panel loads, we hit Steam's own `appdetails` API with `cc=us` to grab the regular MSRP in USD, cache it for 24 hours, and use that as the base for the entire revenue cascade. The number you see next to **Base price (US)** is *not* what your store page is showing you — it's what the same game costs in dollars to a US buyer. If Steam's API is unavailable for some reason, we fall back to the previously cached Gamalytic price, and as a last resort to the regional price your DOM shows (with a visible warning, and the regional-pricing deduction is automatically skipped to avoid the double-counting).
+
+### Why average discount and refunds & returns are sliders (but the multiplier isn't)
+
+Average discount and refund rates are **dial-able knobs in the panel**, not fixed constants. The defaults — 25% average discount and 10% refunds & returns — are reasonable starting points, but they're highly category- and lifecycle-dependent and most devs already have a stronger prior than any one-size-fits-all default. A free-to-play title with a heavy-discount tail behaves nothing like a brand-new $30 release in launch week, and a developer who's actually shipped knows which assumption to plug in for *their* genre.
+
+The reviews-to-sales multiplier deliberately *isn't* a slider in the same way. It's exposed as three discrete tiers (Low 20x, Mid 31x, High 55x) you can click to switch between, because the goal there is different: it's a **range stress-test**, not a personal estimate. The point is to see how a tweak in your central assumption can move the net-to-dev number by tens or hundreds of thousands of dollars, so you stop trusting any single point estimate too much.
+
+Regional pricing (-15%), Steam's cut (-30%), and VAT (-20%) are *not* dials because they're not really opinions — they're either platform constants Valve sets, or empirically measured global averages that don't move much from project to project. Slider'ing those would just give the panel false precision.
+
+If your slider values look like sensible defaults you want to keep, they persist locally between pages and sessions via `chrome.storage.local`. There's a small "Reset to defaults" link below the sliders if you want to revert.
 
 ## The honest origin story
 
@@ -63,6 +81,8 @@ I haven't shipped it to the Chrome Web Store because, well, I've never shipped a
 │   ├── parser.js          # extracts reviews and price from the DOM
 │   ├── inject.js          # builds the panel and handles interaction
 │   └── panel.css          # panel styles
+├── background/
+│   └── bg.js              # service worker — Gamalytic fetch + cache
 └── icons/
     ├── icon.svg
     ├── icon16.png
@@ -81,6 +101,24 @@ Issues and PRs are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md).
 - [Impress Steam revenue calculator](https://impress.games/steam-revenue-calculator) — Impress's own wishlist-to-revenue calculator. If you want a different methodology to cross-check the numbers Gabe's Cut spits out, this is a good place to start.
 
 ## Changelog
+
+### 2026-05-09 — Reset-to-defaults link for sliders
+
+- Tiny quality-of-life addition: a small "Reset to defaults" link under the discount and refunds sliders. Useful when you've been moving them around and want to snap back to the recommended 25% / 10% baseline without reloading.
+
+### 2026-05-09 — US-pegged base price for revenue math
+
+- **The panel now uses the US MSRP as the base price** instead of whatever your Steam region happens to show. Steam regional pricing can vary by 2x or more (e.g. Argentina sees $9, Switzerland sees $25 for the same game), and reading the local price was massively underestimating revenue for users outside the US. Fetched directly from Steam's own `appdetails` API (`cc=us`), cached locally for 24 hours.
+- **Fallback chain**: Steam → Gamalytic cache (if you've already pulled the game once) → DOM-parsed local price (last resort, with a visible warning).
+- **In the regional-fallback case the regional-pricing deduction is skipped**, since starting from a regional price and then deducting another -15% would double-count the discount. The panel makes this explicit.
+- **Why this matters**: Gamalytic, SPA, Impress and every other estimator anchor on the US MSRP. Before this fix, our numbers diverged from theirs by a factor that exactly matched whatever regional discount your country has — for Argentine devs this was ~50% under-counting. After this fix the numbers should land in the same ballpark.
+
+### 2026-05-09 — Optional Gamalytic comparison
+
+- **New "Compare with Gamalytic" panel section.** Click the button and the panel pulls [Gamalytic](https://gamalytic.com)'s independent estimates (copies sold, gross revenue, players including key activations, review score, average playtime, Steam-vs-keys split, followers, and Gamalytic's own confidence score) so you can sanity-check your Boxleiter math against a different methodology.
+- **No account or API key needed.** Uses the same publicly visible game-details endpoint that powers `gamalytic.com/game/{appId}` pages.
+- **Click-gated, with a 24-hour cache.** Requests happen only when you click; results for each game are cached locally for a day to keep us off Gamalytic's back.
+- **Errors are surfaced inline**, with a Retry action — and every loaded result includes a "View on Gamalytic ↗" link so heavy users go straight to the source for the full picture.
 
 ### 2026-05-09 — Tunable deductions
 

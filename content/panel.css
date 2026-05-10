@@ -120,11 +120,17 @@
 
 .boxleiter-panel .bx-control {
   display: grid;
-  grid-template-columns: 92px 1fr 44px auto;
+  grid-template-columns: 92px 1fr auto;
   align-items: center;
   gap: 8px;
   margin: 4px 0;
   font-size: 11px;
+}
+
+.boxleiter-panel .bx-num-wrap {
+  display: flex;
+  align-items: center;
+  gap: 3px;
 }
 
 .boxleiter-panel .bx-control-label {
@@ -194,6 +200,24 @@
   font-size: 11px;
 }
 
+.boxleiter-panel .bx-reset {
+  display: block;
+  margin-top: 6px;
+  margin-left: auto;
+  background: transparent;
+  border: none;
+  color: #8f98a0;
+  font-family: inherit;
+  font-size: 10px;
+  cursor: pointer;
+  padding: 2px 4px;
+  text-decoration: underline;
+}
+
+.boxleiter-panel .bx-reset:hover {
+  color: #66c0f4;
+}
+
 .boxleiter-panel .bx-vat {
   display: block;
   margin-top: 8px;
@@ -208,10 +232,111 @@
   vertical-align: middle;
 }
 
+.boxleiter-panel .bx-warning {
+  background: rgba(240, 180, 60, 0.12);
+  border: 1px solid rgba(240, 180, 60, 0.4);
+  color: #e0c080;
+  padding: 6px 8px;
+  border-radius: 3px;
+  font-size: 11px;
+  margin-bottom: 8px;
+  line-height: 1.35;
+}
+
 .boxleiter-panel .bx-empty {
   color: #8f98a0;
   font-style: italic;
   padding: 8px 0;
+}
+
+.boxleiter-panel .bx-gamalytic-section {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(102, 192, 244, 0.15);
+}
+
+.boxleiter-panel .bx-gamalytic-cta {
+  width: 100%;
+  padding: 8px 12px;
+  background: rgba(102, 192, 244, 0.15);
+  color: #66c0f4;
+  border: 1px solid rgba(102, 192, 244, 0.4);
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.boxleiter-panel .bx-gamalytic-cta:hover {
+  background: rgba(102, 192, 244, 0.25);
+  border-color: #66c0f4;
+}
+
+.boxleiter-panel .bx-loading {
+  font-size: 11px;
+  color: #8f98a0;
+  font-style: italic;
+  padding: 8px 0;
+  text-align: center;
+}
+
+.boxleiter-panel .bx-error {
+  background: rgba(220, 80, 80, 0.12);
+  border: 1px solid rgba(220, 80, 80, 0.4);
+  color: #f0a8a8;
+  padding: 6px 8px;
+  border-radius: 3px;
+  font-size: 11px;
+  margin-bottom: 6px;
+  word-break: break-word;
+}
+
+.boxleiter-panel .bx-actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+  align-items: center;
+}
+
+.boxleiter-panel .bx-btn-secondary {
+  font-family: inherit;
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  border: 1px solid rgba(102, 192, 244, 0.3);
+  background: rgba(0, 0, 0, 0.25);
+  color: #c7d5e0;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.boxleiter-panel .bx-btn-secondary:hover {
+  background: rgba(102, 192, 244, 0.18);
+  border-color: #66c0f4;
+}
+
+.boxleiter-panel .bx-btn-link {
+  font-size: 11px;
+  color: #66c0f4;
+  text-decoration: none;
+  margin-left: auto;
+}
+
+.boxleiter-panel .bx-btn-link:hover {
+  text-decoration: underline;
+}
+
+.boxleiter-panel .bx-gamalytic-meta {
+  font-size: 10px;
+  color: #6b7884;
+  font-style: italic;
+  margin-bottom: 6px;
+}
+
+.boxleiter-panel .bx-gamalytic-table td {
+  font-size: 12px;
 }
 
 .boxleiter-panel .bx-footer {

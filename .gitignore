@@ -13,6 +13,8 @@ node_modules/
 .vscode/
 .idea/
 .claude/
+.playwright-mcp/
+.firecrawl/
 .DS_Store
 Thumbs.db
 
