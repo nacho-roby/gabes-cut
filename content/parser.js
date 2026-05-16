@@ -1,40 +1,35 @@
 (function () {
   function parseReviewCount() {
-    // Steam now splits review counts: meta[itemprop="reviewCount"] reports only the user's language.
-    // The cross-language total lives in .review_summary_count.
+    // Steam renders review counts in multiple places and the "primary" one shifts based on
+    // the user's language/region filters (e.g. Mixtape shows ".review_summary_count" as
+    // "Reseñas en Español de España: 117" while the cross-language total "4,956 reseñas"
+    // lives in the .responsive_hidden span). Collect every candidate and pick the maximum —
+    // the global total is always ≥ any language-filtered subset.
+    const candidates = [];
+    const pushNum = (raw) => {
+      if (raw == null) return;
+      const m = String(raw).match(/([\d.,]+)/);
+      if (!m) return;
+      const n = parseInt(m[1].replace(/[.,]/g, ''), 10);
+      if (!Number.isNaN(n) && n > 0) candidates.push(n);
+    };
+
     const totalEl = document.querySelector('.review_summary_count');
-    if (totalEl) {
-      const m = totalEl.textContent.match(/([\d.,]+)/);
-      if (m) {
-        const n = parseInt(m[1].replace(/[.,]/g, ''), 10);
-        if (!Number.isNaN(n) && n > 0) return n;
-      }
-    }
-    const metas = document.querySelectorAll('meta[itemprop="reviewCount"]');
-    let maxFromMeta = 0;
-    for (const meta of metas) {
-      const n = parseInt(meta.content, 10);
-      if (!Number.isNaN(n) && n > maxFromMeta) maxFromMeta = n;
-    }
-    if (maxFromMeta > 0) return maxFromMeta;
+    if (totalEl) pushNum(totalEl.textContent);
+
+    document.querySelectorAll('meta[itemprop="reviewCount"]').forEach(meta => pushNum(meta.content));
+
     const tooltip = document.querySelector('#userReviews .user_reviews_summary_row[data-tooltip-html]');
     if (tooltip) {
       const html = tooltip.getAttribute('data-tooltip-html') || '';
       const m = html.match(/([\d.,]+)\s+user reviews/i);
-      if (m) {
-        const n = parseInt(m[1].replace(/[.,]/g, ''), 10);
-        if (!Number.isNaN(n)) return n;
-      }
+      if (m) pushNum(m[1]);
     }
-    const spans = document.querySelectorAll('#userReviews .responsive_hidden');
-    for (const s of spans) {
-      const m = s.textContent.match(/([\d.,]+)/);
-      if (m) {
-        const n = parseInt(m[1].replace(/[.,]/g, ''), 10);
-        if (!Number.isNaN(n) && n > 0) return n;
-      }
-    }
-    return null;
+
+    document.querySelectorAll('#userReviews .responsive_hidden').forEach(s => pushNum(s.textContent));
+
+    if (!candidates.length) return null;
+    return Math.max(...candidates);
   }
 
   function parsePrice() {

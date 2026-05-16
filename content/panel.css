@@ -22,13 +22,89 @@
 .boxleiter-panel .bx-meta {
   display: flex;
   justify-content: space-between;
-  gap: 12px;
+  flex-wrap: wrap;
+  gap: 6px 12px;
   margin-bottom: 10px;
   font-size: 12px;
 }
 
 .boxleiter-panel .bx-meta b {
   color: #ffffff;
+}
+
+.boxleiter-panel .bx-meta-line {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.boxleiter-panel .bx-editable-value {
+  color: #ffffff;
+  cursor: pointer;
+  padding: 1px 4px;
+  border-radius: 3px;
+  border: 1px dashed transparent;
+  transition: border-color 0.15s, background 0.15s;
+  font-variant-numeric: tabular-nums;
+}
+
+.boxleiter-panel .bx-editable-value:hover,
+.boxleiter-panel .bx-editable-value:focus {
+  border-color: rgba(102, 192, 244, 0.5);
+  background: rgba(102, 192, 244, 0.08);
+  outline: none;
+}
+
+.boxleiter-panel .bx-edit-hint {
+  color: #6b7884;
+  font-size: 10px;
+}
+
+.boxleiter-panel .bx-editable-input {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid #66c0f4;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  padding: 1px 4px;
+  border-radius: 3px;
+  width: 80px;
+  -moz-appearance: textfield;
+}
+
+.boxleiter-panel .bx-editable-input::-webkit-outer-spin-button,
+.boxleiter-panel .bx-editable-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.boxleiter-panel .bx-editable-input:focus {
+  outline: none;
+}
+
+.boxleiter-panel .bx-inline-reset {
+  background: transparent;
+  border: none;
+  color: #8f98a0;
+  font-family: inherit;
+  font-size: 10px;
+  cursor: pointer;
+  padding: 1px 4px;
+  text-decoration: underline;
+  margin-left: 2px;
+}
+
+.boxleiter-panel .bx-inline-reset:hover {
+  color: #66c0f4;
+}
+
+.boxleiter-panel .bx-edit-note {
+  font-size: 10px;
+  color: #6b7884;
+  font-style: italic;
+  margin: -4px 0 10px;
+  line-height: 1.35;
 }
 
 .boxleiter-panel .bx-section {
